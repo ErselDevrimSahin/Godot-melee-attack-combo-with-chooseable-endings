@@ -1,0 +1,56 @@
+func _process(_delta):
+	if Input.is_action_pressed("wrath"):
+		$wrath_timer.start()
+		$AnimationPlayer.play("walking")
+		is_wrath = true
+	if Input.is_action_just_pressed("hand") && fury_points == 3:
+		if is_parry == false:
+			if hand_attacking == false:
+				fury_points -= 1
+				point_1 = true
+				point_2 = false
+				point_3 = false
+				point_4 = false
+				hand_attacking = true
+				$preattack.start()
+				$attack_timer.start()
+				$combo_timer.start()
+	elif Input.is_action_just_pressed("hand") && fury_points == 2 :
+		if is_parry == false:
+			if hand_attacking == true:
+				fury_points -= 1
+				point_1 = false
+				point_2 = true
+				point_3 = false
+				point_4 = false
+				hand_attacking = true
+				$preattack.start()
+				$attack_timer.start()
+	elif Input.is_action_just_pressed("hand") && fury_points == 1 :
+		if is_parry == false:
+			if hand_attacking == true:
+				fury_points -= 1
+				point_1 = false
+				point_2 = false
+				point_3 = true
+				point_4 = false
+				hand_attacking = true
+				$preattack.start()
+				$attack_timer.start()
+	elif Input.is_action_just_pressed("range") && fury_points == 1 :
+		if is_parry == false:
+			if hand_attacking == true:
+				point_1 = false
+				point_2 = false
+				point_3 = false
+				point_4 = true
+				hand_attacking = true
+				$preattack.start()
+				var energy = EN_BALL.instance()
+				if sign($ranged_pos.position.x) == 1:
+					energy.set_direction(1)
+				else:
+					energy.set_direction(-1)
+				get_parent().add_child(energy)
+				energy.position = $ranged_pos.global_position
+				fury_points = 4
